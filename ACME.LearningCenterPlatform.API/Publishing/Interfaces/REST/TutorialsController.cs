@@ -8,24 +8,17 @@ namespace ACME.LearningCenterPlatform.API.Publishing.Interfaces.REST;
 
 [ApiController]
 [Route("api/v1/[controller]")]
-public class TutorialsController : ControllerBase
+public class TutorialsController(
+    ITutorialCommandService tutorialCommandService,
+    ITutorialQueryService tutorialQueryService)
+    : ControllerBase
 {
-    private readonly ITutorialCommandService _tutorialCommandService;
-    private readonly ITutorialQueryService _tutorialQueryService;
-
-    public TutorialsController(ITutorialCommandService tutorialCommandService,
-        ITutorialQueryService tutorialQueryService)
-    {
-        _tutorialCommandService = tutorialCommandService;
-        _tutorialQueryService = tutorialQueryService;
-    }
-
     [HttpPost]
     public async Task<IActionResult> CreateTutorial([FromBody] CreateTutorialResource createTutorialResource)
     {
         var createTutorialCommand =
             CreateTutorialCommandFromResourceAssembler.ToCommandFromResource(createTutorialResource);
-        var tutorial = await _tutorialCommandService.Handle(createTutorialCommand);
+        var tutorial = await tutorialCommandService.Handle(createTutorialCommand);
         var resource = TutorialResourceFromEntityAssembler.ToResourceFromEntity(tutorial);
         return CreatedAtAction(nameof(GetTutorialById), new { tutorialIdentifier = resource.Id }, resource);
     }
@@ -34,7 +27,7 @@ public class TutorialsController : ControllerBase
     public async Task<IActionResult> GetAllTutorials()
     {
         var getAllTutorialsQuery = new GetAllTutorialsQuery();
-        var tutorials = await _tutorialQueryService.Handle(getAllTutorialsQuery);
+        var tutorials = await tutorialQueryService.Handle(getAllTutorialsQuery);
         var resources = tutorials.Select(TutorialResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(resources);
     }
@@ -42,7 +35,7 @@ public class TutorialsController : ControllerBase
     [HttpGet("{tutorialId}")]
     public async Task<IActionResult> GetTutorialById([FromRoute] int tutorialId)
     {
-        var tutorial = await _tutorialQueryService.Handle(new GetTutorialByIdQuery(tutorialId));
+        var tutorial = await tutorialQueryService.Handle(new GetTutorialByIdQuery(tutorialId));
         if (tutorial == null) return NotFound();
         var resource = TutorialResourceFromEntityAssembler.ToResourceFromEntity(tutorial);
         return Ok(resource);
@@ -55,7 +48,7 @@ public class TutorialsController : ControllerBase
         var addVideAssetToTutorialCommand =
             AddVideoAssetToTutorialCommandFromResourceAssembler.ToCommandFromResource(addVideoAssetToTutorialResource,
                 tutorialId);
-        var tutorial = await _tutorialCommandService.Handle(addVideAssetToTutorialCommand);
+        var tutorial = await tutorialCommandService.Handle(addVideAssetToTutorialCommand);
         var resource = TutorialResourceFromEntityAssembler.ToResourceFromEntity(tutorial);
         return CreatedAtAction(nameof(GetTutorialById), new { tutorialIdentifier = resource.Id }, resource);
     }

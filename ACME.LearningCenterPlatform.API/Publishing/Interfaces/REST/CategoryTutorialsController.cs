@@ -10,15 +10,8 @@ namespace ACME.LearningCenterPlatform.API.Publishing.Interfaces.REST;
 [Route("/api/v1/categories/{categoryId}/tutorials")]
 [Produces(MediaTypeNames.Application.Json)]
 [Tags("Categories")]
-public class CategoryTutorialsController : ControllerBase
+public class CategoryTutorialsController(ITutorialQueryService tutorialQueryService) : ControllerBase
 {
-    private readonly ITutorialQueryService _tutorialQueryService;
-
-    public CategoryTutorialsController(ITutorialQueryService tutorialQueryService)
-    {
-        _tutorialQueryService = tutorialQueryService;
-    }
-
     /**
      * Get Tutorials by Category Id.
      * <summary>
@@ -31,7 +24,7 @@ public class CategoryTutorialsController : ControllerBase
     public async Task<IActionResult> GetTutorialsByCategoryId([FromRoute] int categoryId)
     {
         var getAllTutorialsByCategoryIdQuery = new GetAllTutorialsByCategoryIdQuery(categoryId);
-        var tutorials = await _tutorialQueryService.Handle(getAllTutorialsByCategoryIdQuery);
+        var tutorials = await tutorialQueryService.Handle(getAllTutorialsByCategoryIdQuery);
         var resources = tutorials.Select(TutorialResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(resources);
     }

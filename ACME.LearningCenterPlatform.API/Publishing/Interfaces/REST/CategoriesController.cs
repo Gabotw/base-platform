@@ -17,18 +17,11 @@ namespace ACME.LearningCenterPlatform.API.Publishing.Interfaces.REST;
 [ApiController]
 [Route("api/v1/[controller]")]
 [Produces(MediaTypeNames.Application.Json)]
-public class CategoriesController : ControllerBase
+public class CategoriesController(
+    ICategoryCommandService categoryCommandService,
+    ICategoryQueryService categoryQueryService)
+    : ControllerBase
 {
-    private readonly ICategoryCommandService _categoryCommandService;
-    private readonly ICategoryQueryService _categoryQueryService;
-
-    public CategoriesController(ICategoryCommandService categoryCommandService,
-        ICategoryQueryService categoryQueryService)
-    {
-        _categoryCommandService = categoryCommandService;
-        _categoryQueryService = categoryQueryService;
-    }
-
     /**
      * Create Category.
      * <summary>
@@ -47,7 +40,7 @@ public class CategoriesController : ControllerBase
     {
         var createCategoryCommand =
             CreateCategoryCommandFromResourceAssembler.ToCommandFromResource(createCategoryResource);
-        var category = await _categoryCommandService.Handle(createCategoryCommand);
+        var category = await categoryCommandService.Handle(createCategoryCommand);
         var resource = CategoryResourceFromEntityAssembler.ToResourceFromEntity(category);
         return CreatedAtAction(nameof(GetCategoryById), new { id = resource.Id }, resource);
     }
@@ -69,7 +62,7 @@ public class CategoriesController : ControllerBase
     public async Task<IActionResult> GetCategoryById(int categoryId)
     {
         var getCategoryByIdQuery = new GetCategoryByIdQuery(categoryId);
-        var category = await _categoryQueryService.Handle(getCategoryByIdQuery);
+        var category = await categoryQueryService.Handle(getCategoryByIdQuery);
         var resource = CategoryResourceFromEntityAssembler.ToResourceFromEntity(category);
         return Ok(resource);
     }
@@ -90,7 +83,7 @@ public class CategoriesController : ControllerBase
     public async Task<IActionResult> GetAllCategories()
     {
         var getAllCategoriesQuery = new GetAllCategoriesQuery();
-        var categories = await _categoryQueryService.Handle(getAllCategoriesQuery);
+        var categories = await categoryQueryService.Handle(getAllCategoriesQuery);
         var resources = categories.Select(CategoryResourceFromEntityAssembler.ToResourceFromEntity);
         return Ok(resources);
     }
