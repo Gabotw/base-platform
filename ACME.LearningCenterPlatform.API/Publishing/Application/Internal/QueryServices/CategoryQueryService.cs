@@ -18,4 +18,16 @@ public class CategoryQueryService(ICategoryRepository categoryRepository) : ICat
     {
         return await categoryRepository.FindByIdAsync(query.Id);
     }
+
+    /**
+     * <summary>
+     *     This method is responsible for handling GetAllCategoriesQuery
+     * </summary>
+     * <param name="query">GetAllCategoriesQuery</param>
+     * <returns>Category - The Category object</returns>
+     */
+    public async Task<IEnumerable<Category>> Handle(GetAllCategoriesQuery query)
+    {
+        return await categoryRepository.ListAsync();
+    }
 }

@@ -30,4 +30,16 @@ public class TutorialQueryService(ITutorialRepository tutorialRepository) : ITut
     {
         return await tutorialRepository.ListAsync();
     }
+    
+    /**
+     * <summary>
+     *     This method is responsible for handling GetAllTutorialsByCategoryIdQuery
+     * </summary>
+     * <param name="query">GetAllTutorialsByCategoryIdQuery</param>
+     * <returns>IEnumerable of Tutorials - The list of Tutorial objects</returns>
+     */
+    public async Task<IEnumerable<Tutorial>> Handle(GetAllTutorialsByCategoryIdQuery query)
+    {
+        return await tutorialRepository.FindByCategoryIdAsync(query.CategoryId);
+    }
 }

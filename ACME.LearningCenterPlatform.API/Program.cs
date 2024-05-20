@@ -8,6 +8,7 @@ using ACME.LearningCenterPlatform.API.Shared.Infrastructure.Persistence.EFC.Conf
 using ACME.LearningCenterPlatform.API.Shared.Infrastructure.Persistence.EFC.Repositories;
 using ACME.LearningCenterPlatform.API.Shared.Interfaces.ASP.Configuration;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,13 +33,34 @@ builder.Services.AddDbContext<AppDbContext>(
             else if (builder.Environment.IsProduction())
                 options.UseMySQL(connectionString)
                     .LogTo(Console.WriteLine, LogLevel.Error)
-                    .EnableSensitiveDataLogging()
                     .EnableDetailedErrors();    
     });
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(
+    c =>
+    {
+        c.SwaggerDoc("v1",
+            new OpenApiInfo
+            {
+                Title = "ACME.LearningCenterPlatform.API",
+                Version = "v1",
+                Description = "ACME Learning Center Platform API",
+                TermsOfService = new Uri("https://acme-learning.com/tos"),
+                Contact = new OpenApiContact
+                {
+                    Name = "ACME Studios",
+                    Email = "contact@acme.com"
+                },
+                License = new OpenApiLicense
+                {
+                    Name = "Apache 2.0",
+                    Url = new Uri("https://www.apache.org/licenses/LICENSE-2.0.html")
+                }
+            });
+        c.EnableAnnotations();
+    });
 
 // Configure Lowercase URLs
 builder.Services.AddRouting(options => options.LowercaseUrls = true);

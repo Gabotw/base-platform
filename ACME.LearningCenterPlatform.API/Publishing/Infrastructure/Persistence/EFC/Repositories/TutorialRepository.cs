@@ -18,4 +18,19 @@ public class TutorialRepository(AppDbContext context) : BaseRepository<Tutorial>
     public new async Task<Tutorial?> FindByIdAsync(int id) =>
         await Context.Set<Tutorial>().Include(t => t.Category)
             .Where(t => t.Id == id).FirstOrDefaultAsync();
+    
+    public new async Task<IEnumerable<Tutorial>> ListAsync()
+    {
+        return await Context.Set<Tutorial>()
+            .Include(tutorial => tutorial.Category)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Tutorial>> FindByCategoryIdAsync(int categoryId)
+    {
+        return await Context.Set<Tutorial>()
+            .Include(tutorial => tutorial.Category)
+            .Where(tutorial => tutorial.CategoryId == categoryId)
+            .ToListAsync();
+    }
 }

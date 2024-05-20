@@ -7,4 +7,5 @@ public interface ITutorialQueryService
 {
     Task<Tutorial?> Handle(GetTutorialByIdQuery query);
     Task<IEnumerable<Tutorial>> Handle(GetAllTutorialsQuery query);
+    Task<IEnumerable<Tutorial>> Handle(GetAllTutorialsByCategoryIdQuery query);
 }
