@@ -72,7 +72,7 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
             e =>
             {
                 e.WithOwner().HasForeignKey("Id");
-                e.Property(a => a.Address).HasColumnName("Email");
+                e.Property(a => a.Address).HasColumnName("EmailAddress");
             });
 
         builder.Entity<Profile>().OwnsOne(p => p.Address,
