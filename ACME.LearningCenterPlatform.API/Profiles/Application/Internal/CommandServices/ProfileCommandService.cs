@@ -18,7 +18,8 @@ public class ProfileCommandService(IProfileRepository profileRepository, IUnitOf
             return profile;
         } catch (Exception e)
         {
-            throw new Exception($"An error occurred while creating the profile: {e.Message}");
+            Console.WriteLine($"An error occurred while creating the profile: {e.Message}");
+            return null;
         }
     }
 }
