@@ -3,6 +3,13 @@ using ACME.LearningCenterPlatform.API.Profiles.Domain.Model.ValueObjects;
 
 namespace ACME.LearningCenterPlatform.API.Profiles.Domain.Model.Aggregates;
 
+/**
+ * Profile aggregate root entity.
+ *
+ * <p>
+ * This class represents the Profile aggregate root entity. It contains the properties and methods to manage the profile
+ * </p>
+ */
 public partial class Profile
 {
     public Profile()
@@ -12,7 +19,7 @@ public partial class Profile
         Address = new StreetAddress();
     }
 
-    public Profile(string firstName, string lastName, string email, string street, string number, string city, 
+    public Profile(string firstName, string lastName, string email, string street, string number, string city,
         string postalCode, string country)
     {
         Name = new PersonName(firstName, lastName);
@@ -26,7 +33,7 @@ public partial class Profile
         Email = new EmailAddress(command.Email);
         Address = new StreetAddress(command.Street, command.Number, command.City, command.PostalCode, command.Country);
     }
-    
+
     public int Id { get; }
     public PersonName Name { get; private set; }
     public EmailAddress Email { get; private set; }
@@ -37,5 +44,4 @@ public partial class Profile
     public string EmailAddress => Email.Address;
 
     public string StreetAddress => Address.FullAddress;
-    
 }
