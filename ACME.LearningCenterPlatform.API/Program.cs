@@ -1,3 +1,8 @@
+using ACME.LearningCenterPlatform.API.Profiles.Application.Internal.CommandServices;
+using ACME.LearningCenterPlatform.API.Profiles.Application.Internal.QueryServices;
+using ACME.LearningCenterPlatform.API.Profiles.Domain.Model.Repositories;
+using ACME.LearningCenterPlatform.API.Profiles.Domain.Model.Services;
+using ACME.LearningCenterPlatform.API.Profiles.Infrastructure.Persistence.EFC.Repositories;
 using ACME.LearningCenterPlatform.API.Publishing.Application.Internal.CommandServices;
 using ACME.LearningCenterPlatform.API.Publishing.Application.Internal.QueryServices;
 using ACME.LearningCenterPlatform.API.Publishing.Domain.Repositories;
@@ -78,6 +83,10 @@ builder.Services.AddScoped<ITutorialRepository, TutorialRepository>();
 builder.Services.AddScoped<ITutorialCommandService, TutorialCommandService>();
 builder.Services.AddScoped<ITutorialQueryService, TutorialQueryService>();
 
+// Profiles Bounded Context Injection Configuration
+builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
+builder.Services.AddScoped<IProfileCommandService, ProfileCommandService>();
+builder.Services.AddScoped<IProfileQueryService, ProfileQueryService>();
 
 var app = builder.Build();
 
