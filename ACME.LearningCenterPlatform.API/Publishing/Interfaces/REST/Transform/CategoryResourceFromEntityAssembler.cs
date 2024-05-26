@@ -7,6 +7,7 @@ public static class CategoryResourceFromEntityAssembler
 {
     public static CategoryResource ToResourceFromEntity(Category entity)
     {
+        Console.WriteLine("Category Name is " + entity.Name);
         return new CategoryResource(entity.Id, entity.Name);
     }
 }

@@ -16,6 +16,6 @@ public partial class Tutorial
 
     public string Summary { get; private set; }
 
-    public Category Category { get; }
+    public Category Category { get; internal set; }
     public int CategoryId { get; private set; }    
 }

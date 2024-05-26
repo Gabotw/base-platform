@@ -41,8 +41,9 @@ public class CategoriesController(
         var createCategoryCommand =
             CreateCategoryCommandFromResourceAssembler.ToCommandFromResource(createCategoryResource);
         var category = await categoryCommandService.Handle(createCategoryCommand);
+        if (category is null) return BadRequest();
         var resource = CategoryResourceFromEntityAssembler.ToResourceFromEntity(category);
-        return CreatedAtAction(nameof(GetCategoryById), new { id = resource.Id }, resource);
+        return CreatedAtAction(nameof(GetCategoryById), new { categoryId = resource.Id }, resource);
     }
 
     /**

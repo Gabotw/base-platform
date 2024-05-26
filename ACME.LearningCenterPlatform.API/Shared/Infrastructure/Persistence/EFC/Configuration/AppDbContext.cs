@@ -47,8 +47,13 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
         builder.Entity<ImageAsset>().Property(p => p.ImageUri).IsRequired();
         builder.Entity<VideoAsset>().Property(p => p.VideoUri).IsRequired();
         builder.Entity<Tutorial>().HasMany(t => t.Assets);
-
         
+        // Category Relationships
+        builder.Entity<Category>()
+            .HasMany(c => c.Tutorials)
+            .WithOne(t => t.Category)
+            .HasForeignKey(t => t.CategoryId)
+            .HasPrincipalKey(t => t.Id);
         
         // Apply SnakeCase Naming Convention
         builder.UseSnakeCaseWithPluralizedTableNamingConvention();

@@ -9,7 +9,7 @@ namespace ACME.LearningCenterPlatform.API.Publishing.Infrastructure.Persistence.
 public class TutorialRepository(AppDbContext context) : BaseRepository<Tutorial>(context), ITutorialRepository
 {
     /**
-     * Find Tutorial By Id
+     * Find Tutorial By id
      * <summary>
      *     This method is used to find a tutorial by id, overriding the base method to include the category
      * </summary>

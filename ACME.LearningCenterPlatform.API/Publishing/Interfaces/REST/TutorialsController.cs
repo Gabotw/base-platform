@@ -19,8 +19,9 @@ public class TutorialsController(
         var createTutorialCommand =
             CreateTutorialCommandFromResourceAssembler.ToCommandFromResource(createTutorialResource);
         var tutorial = await tutorialCommandService.Handle(createTutorialCommand);
+        if (tutorial is null) return BadRequest();
         var resource = TutorialResourceFromEntityAssembler.ToResourceFromEntity(tutorial);
-        return CreatedAtAction(nameof(GetTutorialById), new { tutorialIdentifier = resource.Id }, resource);
+        return CreatedAtAction(nameof(GetTutorialById), new { tutorialId = resource.Id }, resource);
     }
 
     [HttpGet]

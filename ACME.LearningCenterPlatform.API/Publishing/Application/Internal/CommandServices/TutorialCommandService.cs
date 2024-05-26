@@ -6,7 +6,7 @@ using ACME.LearningCenterPlatform.API.Shared.Domain.Repositories;
 
 namespace ACME.LearningCenterPlatform.API.Publishing.Application.Internal.CommandServices;
 
-public class TutorialCommandService(ITutorialRepository tutorialRepository, IUnitOfWork unitOfWork)
+public class TutorialCommandService(ITutorialRepository tutorialRepository, ICategoryRepository categoryRepository, IUnitOfWork unitOfWork)
     : ITutorialCommandService
 {
 
@@ -24,6 +24,8 @@ public class TutorialCommandService(ITutorialRepository tutorialRepository, IUni
         var tutorial = new Tutorial(command.Title, command.Summary, command.CategoryId);
         await tutorialRepository.AddAsync(tutorial);
         await unitOfWork.CompleteAsync();
+        var category = await categoryRepository.FindByIdAsync(command.CategoryId);
+        tutorial.Category = category;
         return tutorial;
     }   
 }

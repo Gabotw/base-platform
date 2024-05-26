@@ -49,7 +49,7 @@ public partial class Tutorial : IPublishable
     public List<ContentItem> GetContent()
     {
         var content = new List<ContentItem>();
-        if (Assets.Any())
+        if (Assets.Count > 0)
             content.AddRange(Assets.Select(asset =>
                 new ContentItem(asset.Type.ToString(), asset.GetContent() as string ?? string.Empty)));
         return content;
