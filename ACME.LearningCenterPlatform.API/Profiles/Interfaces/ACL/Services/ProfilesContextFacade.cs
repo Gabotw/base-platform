@@ -3,7 +3,7 @@ using ACME.LearningCenterPlatform.API.Profiles.Domain.Model.Queries;
 using ACME.LearningCenterPlatform.API.Profiles.Domain.Model.Services;
 using ACME.LearningCenterPlatform.API.Profiles.Domain.Model.ValueObjects;
 
-namespace ACME.LearningCenterPlatform.API.Profiles.Interfaces.ACL;
+namespace ACME.LearningCenterPlatform.API.Profiles.Interfaces.ACL.Services;
 
 /**
  * Profiles context facade.
@@ -13,7 +13,7 @@ namespace ACME.LearningCenterPlatform.API.Profiles.Interfaces.ACL;
  * It contains the methods to interact with the profiles context from other bounded context.
  * </summary>
  */
-public class ProfilesContextFacade(IProfileCommandService profileCommandService, IProfileQueryService profileQueryService)
+public class ProfilesContextFacade(IProfileCommandService profileCommandService, IProfileQueryService profileQueryService) : IProfilesContextFacade
 {
     /**
      * Create a profile.

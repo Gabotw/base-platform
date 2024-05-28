@@ -3,6 +3,8 @@ using ACME.LearningCenterPlatform.API.Profiles.Application.Internal.QueryService
 using ACME.LearningCenterPlatform.API.Profiles.Domain.Model.Repositories;
 using ACME.LearningCenterPlatform.API.Profiles.Domain.Model.Services;
 using ACME.LearningCenterPlatform.API.Profiles.Infrastructure.Persistence.EFC.Repositories;
+using ACME.LearningCenterPlatform.API.Profiles.Interfaces.ACL;
+using ACME.LearningCenterPlatform.API.Profiles.Interfaces.ACL.Services;
 using ACME.LearningCenterPlatform.API.Publishing.Application.Internal.CommandServices;
 using ACME.LearningCenterPlatform.API.Publishing.Application.Internal.QueryServices;
 using ACME.LearningCenterPlatform.API.Publishing.Domain.Repositories;
@@ -87,6 +89,7 @@ builder.Services.AddScoped<ITutorialQueryService, TutorialQueryService>();
 builder.Services.AddScoped<IProfileRepository, ProfileRepository>();
 builder.Services.AddScoped<IProfileCommandService, ProfileCommandService>();
 builder.Services.AddScoped<IProfileQueryService, ProfileQueryService>();
+builder.Services.AddScoped<IProfilesContextFacade, ProfilesContextFacade>();
 
 var app = builder.Build();
 
