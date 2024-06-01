@@ -46,6 +46,7 @@ The Publishing Context is responsible for managing the publishing lifecycle of l
 ### Identity and Access Management (IAM) Context
 
 The IAM Context is responsible for managing platform users, including the sign in and sign up processes. It applies JSON Web Token based authorization and Password hashing. It also adds a request authorization middleware to ASP.NET Core Pipeline, in order to validate included token in request header on endpoints that require authorization. Its capabilities include:
+
 - Create a new User (Sign Up).
 - Authenticate a User (Sign In).
 - Get a User by ID.
@@ -54,6 +55,12 @@ The IAM Context is responsible for managing platform users, including the sign i
 - Provide Annotation Attributes for decorating inbound services and actions in order to enable request authorization.
 - Generate and validate JSON Web Tokens.
 - Apply Password hashing.
+
+This context includes also an anti-corruption layer. The anti-corruption layer is responsible for managing the communication between the IAM Context and other bounded Contexts. Its capabilities include:
+
+- Create a new User, returning ID of the created User on success.
+- Get a User by ID, returning the associated User ID on success.
+- Get a User by Username, returning the associated User ID on success.
 
 In this version, Open API documentation includes support for JSON Web Token based authorization. 
 
